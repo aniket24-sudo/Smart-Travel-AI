@@ -1,9 +1,5 @@
 ✈️ Smart Travel AI Planner
 
-A modern, sleek front-end web application that leverages the power of Google's Gemini AI to instantly generate highly customized travel itineraries.
-
-Instead of spending hours researching, users simply input their destination, budget, trip duration, and preferred "travel vibe," and the AI dynamically builds a day-by-day schedule with estimated costs.
-
 ✨ Key Features
 🤖 AI-Powered Generation: Integrates directly with the gemini-3.5-flash model to engineer prompts and return strictly formatted JSON data.
 
