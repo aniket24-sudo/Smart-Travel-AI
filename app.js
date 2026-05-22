@@ -1,9 +1,3 @@
-// ==========================================
-// 1. AI TRAVEL PLANNER LOGIC
-// ==========================================
-
-// 👇 PASTE YOUR ACTUAL API KEY HERE 👇
-
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // Grab UI Elements
@@ -201,6 +195,7 @@ loginBtn.addEventListener('click', () => {
     }
 });
 
+<<<<<<< HEAD
 // --- AUTO LOGIN ON REFRESH ---
 // If the user refreshed the page but is still logged in, update the UI
 window.onload = () => {
@@ -217,3 +212,13 @@ window.onload = () => {
         };
     }
 };
+=======
+// 6. Close Modal 'X' Buttons -> Hides the Modals
+closeLoginBtn.addEventListener('click', () => {
+    loginModal.classList.add('hidden');
+});
+
+closeRegisterBtn.addEventListener('click', () => {
+    registerModal.classList.add('hidden');
+});
+>>>>>>> 268173fa0474ff06624c8e5a76681c899aaf7690
