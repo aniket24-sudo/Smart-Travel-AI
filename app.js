@@ -3,7 +3,7 @@
 // ==========================================
 
 // 👇 PASTE YOUR ACTUAL API KEY HERE 👇
-const GEMINI_API_KEY = "AIzaSyBC6wTCgitFRkNqWK8GR1IQADhDyraYh-E"; 
+const GEMINI_API_KEY = "Here to paste api key which is not shown because of privacy"; 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // Grab UI Elements
