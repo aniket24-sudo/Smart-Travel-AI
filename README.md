@@ -1,16 +1,3 @@
-
-# Smart-Travel-AI
-tHIS IS AI WHERE TAKE THREE INPUT FROM USER
-<BR>
-DESTINATION,BUDGET,NO. OF DAYS ACCORDING TO THAT 
-<BR>
-AI GIVES YOU ITINARY PLAN FOR YOUR TRIP
-<br>
-hello
-
-
-
-
 ✈️ Smart Travel AI Planner
 
 ✨ Key Features
