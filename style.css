@@ -21,12 +21,18 @@ body {
     color: #1f2937;
     margin: 0; 
     
-    /* Centering Magic */
+    /* 👇 UPDATED SCROLLING MAGIC 👇 */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Stacks sections top-to-bottom */
+    align-items: center;    /* Keeps everything centered horizontally */
     min-height: 100vh;
-    padding: 2rem;
+}
+
+/* Make sure your container has enough space from the navbar */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 100px auto 4rem auto; 
 }
 
 /* =========================================
@@ -239,4 +245,167 @@ button:hover {
 
 .close-btn:hover {
     color: #ef4444;
+}
+
+/* =========================================
+   7. LANDING PAGE SECTIONS
+   ========================================= */
+section {
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem 5%;
+    margin-bottom: 3rem;
+    background: rgba(255, 255, 255, 0.85); /* Frosted glass wrapper */
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+section h2 {
+    color: #4F46E5;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.subtitle {
+    color: #4b5563;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Features Grid */
+.features-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap; /* Allows stacking on mobile phones */
+}
+
+.feature-box {
+    flex: 1;
+    min-width: 250px;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.feature-box .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.feature-box h3 {
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+/* Inspiration Gallery Grid */
+.card-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.dest-card {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.dest-card:hover {
+    transform: translateY(-10px); /* Lifts the card up when hovered */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-img {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+}
+
+.card-info {
+    padding: 1.5rem;
+    text-align: left;
+}
+
+.card-info h4 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card-info p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* =========================================
+   8. FAT FOOTER
+   ========================================= */
+footer {
+    width: 100%;
+    background-color: #1f2937; /* Dark Grey/Blue */
+    color: #f3f4f6;
+    padding: 3rem 5% 1rem 5%;
+    margin-top: auto; /* Pushes footer to the absolute bottom */
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand h3 {
+    color: #818cf8;
+    margin-bottom: 1rem;
+}
+
+.footer-brand p {
+    max-width: 300px;
+    color: #9ca3af;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-links h4 {
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.footer-links a {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #818cf8;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #374151;
+    color: #9ca3af;
+    font-size: 0.9rem;
 }
