@@ -175,11 +175,18 @@ button:hover {
 }
 
 #loading {
-    text-align: center;
-    color: #ff0000;
+    color: blue;
     font-weight: bold;
-    margin-bottom: 2rem;
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9);
+
+    background-color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 2px solid blue;
+
+    width: fit-content;
+    margin: 20px auto;
+
+    text-align: center;
 }
 
 .day-card {
