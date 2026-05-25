@@ -1,7 +1,6 @@
 ✈️ Smart Travel AI Planner
 
 
-"gse2dif"
 
 ✨ Key Features
 🤖 AI-Powered Generation: Integrates directly with the gemini-3.5-flash model to engineer prompts and return strictly formatted JSON data.
