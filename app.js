@@ -1,17 +1,19 @@
+// ==========================================
+// 1. AI TRAVEL PLANNER LOGIC
+// ==========================================
+// Notice we get the API key from config.js now!
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-// Grab UI Elements
 const generateBtn = document.getElementById('generate-btn');
 const loadingDiv = document.getElementById('loading');
 const outputDiv = document.getElementById('itinerary-output');
 
-// When the user clicks "Generate AI Itinerary"
 generateBtn.addEventListener('click', async () => {
     
-    // Check if the user is logged in before allowing them to generate!
+    // Check Auth
     if (!localStorage.getItem('currentUser')) {
         alert("Please login first to generate an itinerary!");
-        loginModal.classList.remove('hidden'); // Force open the login modal
+        loginModal.classList.remove('hidden'); 
         return;
     }
 
@@ -45,9 +47,7 @@ generateBtn.addEventListener('click', async () => {
 
         const data = await response.json();
         
-        if (!response.ok) {
-            throw new Error(`API Error: ${data.error?.message || "Unknown error occurred"}`);
-        }
+        if (!response.ok) throw new Error(`API Error: ${data.error?.message || "Unknown error occurred"}`);
         
         const aiText = data.candidates[0].content.parts[0].text;
         const itineraryArray = JSON.parse(aiText);
@@ -90,35 +90,37 @@ const navRegister = document.getElementById('nav-register');
 
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
+const feedbackModal = document.getElementById('feedback-modal');
+
 const closeLoginBtn = document.getElementById('close-login');
 const closeRegisterBtn = document.getElementById('close-register');
+const closeFeedbackBtn = document.getElementById('close-feedback');
 
-// Navigation links
+// Smooth Scroll Links
 navHome.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-navAbout.addEventListener('click', (e) => { e.preventDefault(); alert("Smart Travel AI is an intelligent planner designed to instantly generate custom itineraries."); });
-navFeedback.addEventListener('click', (e) => { e.preventDefault(); alert("Feedback system coming soon!"); });
+// navAbout now scrolls down to the How It Works section!
 
-// Open / Close Modals
+// Open Modals
 navLogin.addEventListener('click', (e) => { e.preventDefault(); loginModal.classList.remove('hidden'); });
 navRegister.addEventListener('click', (e) => { e.preventDefault(); registerModal.classList.remove('hidden'); });
+navFeedback.addEventListener('click', (e) => { e.preventDefault(); feedbackModal.classList.remove('hidden'); });
+
+// Close Modals
 closeLoginBtn.addEventListener('click', () => loginModal.classList.add('hidden'));
 closeRegisterBtn.addEventListener('click', () => registerModal.classList.add('hidden'));
+closeFeedbackBtn.addEventListener('click', () => feedbackModal.classList.add('hidden'));
 
 
 // ==========================================
 // 3. AUTHENTICATION LOGIC (LOCAL STORAGE)
 // ==========================================
-
-// We need to grab the inputs and buttons from inside the newly created Modals
 const registerInputs = document.querySelectorAll('#register-modal input');
 const registerBtn = document.querySelector('#register-modal button');
 
 const loginInputs = document.querySelectorAll('#login-modal input');
 const loginBtn = document.querySelector('#login-modal button');
 
-// --- REGISTER LOGIC ---
 registerBtn.addEventListener('click', () => {
-    // The HTML has Name, Email, Password in that order.
     const fullName = registerInputs[0].value.trim();
     const email = registerInputs[1].value.trim();
     const password = registerInputs[2].value.trim();
@@ -128,81 +130,56 @@ registerBtn.addEventListener('click', () => {
         return;
     }
 
-    // Check if the user already exists in the browser's memory
     const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = existingUsers.some(user => user.email === email);
-
-    if (userExists) {
+    if (existingUsers.some(user => user.email === email)) {
         alert("An account with this email already exists! Please login.");
         registerModal.classList.add('hidden');
         loginModal.classList.remove('hidden');
         return;
     }
 
-    // Save the new user!
-    const newUser = { fullName, email, password };
-    existingUsers.push(newUser);
+    existingUsers.push({ fullName, email, password });
     localStorage.setItem('users', JSON.stringify(existingUsers));
 
     alert("Registration Successful! Please login.");
-    
-    // Clear the inputs and swap to the login screen
     registerInputs[0].value = ''; registerInputs[1].value = ''; registerInputs[2].value = '';
     registerModal.classList.add('hidden');
     loginModal.classList.remove('hidden');
 });
 
-// --- LOGIN LOGIC ---
 loginBtn.addEventListener('click', () => {
     const email = loginInputs[0].value.trim();
     const password = loginInputs[1].value.trim();
 
-    if (!email || !password) {
-        alert("Please enter both email and password.");
-        return;
-    }
+    if (!email || !password) return alert("Please enter both email and password.");
 
     const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Find a user that matches both the email and password
     const validUser = existingUsers.find(user => user.email === email && user.password === password);
 
     if (validUser) {
         alert(`Welcome back, ${validUser.fullName}!`);
-        
-        // Save the current user to keep them logged in
         localStorage.setItem('currentUser', JSON.stringify(validUser));
-        
-        // Hide the login modal and clear the inputs
         loginModal.classList.add('hidden');
         loginInputs[0].value = ''; loginInputs[1].value = '';
         
-        // Change the navbar text to show they are logged in
         navLogin.textContent = `Hi, ${validUser.fullName}`;
         navRegister.textContent = "Logout";
-        
-        // Temporarily hijack the register button to act as a logout
-        navRegister.removeEventListener('click', openRegisterModal); // Remove old listener (conceptually)
         navRegister.onclick = function(e) {
              e.preventDefault();
              localStorage.removeItem('currentUser');
              alert("You have been logged out.");
-             location.reload(); // Refresh the page to reset the UI
+             location.reload(); 
         };
-
     } else {
         alert("Invalid email or password. Please try again.");
     }
 });
 
-// --- AUTO LOGIN ON REFRESH ---
-// If the user refreshed the page but is still logged in, update the UI
 window.onload = () => {
     const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
     if (loggedInUser) {
         navLogin.textContent = `Hi, ${loggedInUser.fullName}`;
         navRegister.textContent = "Logout";
-        
         navRegister.onclick = function(e) {
              e.preventDefault();
              localStorage.removeItem('currentUser');
@@ -211,12 +188,34 @@ window.onload = () => {
         };
     }
 };
-// 6. Close Modal 'X' Buttons -> Hides the Modals
-closeLoginBtn.addEventListener('click', () => {
-    loginModal.classList.add('hidden');
-});
 
-closeRegisterBtn.addEventListener('click', () => {
-    registerModal.classList.add('hidden');
-});
+// ==========================================
+// 4. FEEDBACK LOGIC (LOCAL STORAGE)
+// ==========================================
+const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
 
+submitFeedbackBtn.addEventListener('click', () => {
+    const rating = document.getElementById('feedback-rating').value;
+    const message = document.getElementById('feedback-text').value.trim();
+
+    if (!message) {
+        alert("Please write a message before submitting.");
+        return;
+    }
+
+    const existingFeedback = JSON.parse(localStorage.getItem('userFeedback')) || [];
+    
+    existingFeedback.push({
+        rating: rating,
+        message: message,
+        date: new Date().toLocaleDateString()
+    });
+
+    localStorage.setItem('userFeedback', JSON.stringify(existingFeedback));
+
+    alert("Thank you for your feedback! We read every message.");
+    
+    document.getElementById('feedback-rating').value = '5';
+    document.getElementById('feedback-text').value = '';
+    feedbackModal.classList.add('hidden');
+});

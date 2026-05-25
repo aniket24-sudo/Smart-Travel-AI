@@ -6,6 +6,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
 }
 
 /* =========================================
@@ -21,18 +22,10 @@ body {
     color: #1f2937;
     margin: 0; 
     
-    /* 👇 UPDATED SCROLLING MAGIC 👇 */
     display: flex;
-    flex-direction: column; /* Stacks sections top-to-bottom */
-    align-items: center;    /* Keeps everything centered horizontally */
+    flex-direction: column; 
+    align-items: center;    
     min-height: 100vh;
-}
-
-/* Make sure your container has enough space from the navbar */
-.container {
-    width: 100%;
-    max-width: 600px;
-    margin: 100px auto 4rem auto; 
 }
 
 /* =========================================
@@ -85,7 +78,7 @@ body {
 .container {
     width: 100%;
     max-width: 600px;
-    margin: 5rem auto 0 auto; /* Added top margin so navbar doesn't cover it */
+    margin: 100px auto 4rem auto; 
 }
 
 header {
@@ -135,7 +128,7 @@ label {
     font-size: 0.9rem;
 }
 
-input, select {
+input, select, textarea {
     padding: 0.8rem;
     border: 1px solid #d1d5db;
     border-radius: 8px;
@@ -143,9 +136,11 @@ input, select {
     outline: none;
     background-color: white; 
     width: 100%;
+    font-family: inherit;
+    resize: vertical;
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
     border-color: #4F46E5;
 }
 
@@ -175,17 +170,14 @@ button:hover {
 }
 
 #loading {
-    color: blue;
+    color: #4F46E5;
     font-weight: bold;
-
-    background-color: white;
+    background-color: rgba(255,255,255,0.9);
     padding: 15px 25px;
     border-radius: 10px;
-    border: 2px solid blue;
-
+    border: 2px solid #4F46E5;
     width: fit-content;
     margin: 20px auto;
-
     text-align: center;
 }
 
@@ -262,7 +254,7 @@ section {
     max-width: 1000px;
     padding: 2rem 5%;
     margin-bottom: 3rem;
-    background: rgba(255, 255, 255, 0.85); /* Frosted glass wrapper */
+    background: rgba(255, 255, 255, 0.85); 
     border-radius: 16px;
     backdrop-filter: blur(5px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -281,12 +273,11 @@ section h2 {
     margin-bottom: 2rem;
 }
 
-/* Features Grid */
 .features-grid {
     display: flex;
     justify-content: space-between;
     gap: 2rem;
-    flex-wrap: wrap; /* Allows stacking on mobile phones */
+    flex-wrap: wrap; 
 }
 
 .feature-box {
@@ -308,7 +299,6 @@ section h2 {
     color: #1f2937;
 }
 
-/* Inspiration Gallery Grid */
 .card-grid {
     display: flex;
     justify-content: space-between;
@@ -328,7 +318,7 @@ section h2 {
 }
 
 .dest-card:hover {
-    transform: translateY(-10px); /* Lifts the card up when hovered */
+    transform: translateY(-10px); 
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
@@ -362,10 +352,10 @@ section h2 {
    ========================================= */
 footer {
     width: 100%;
-    background-color: #1f2937; /* Dark Grey/Blue */
+    background-color: #1f2937; 
     color: #f3f4f6;
     padding: 3rem 5% 1rem 5%;
-    margin-top: auto; /* Pushes footer to the absolute bottom */
+    margin-top: auto; 
 }
 
 .footer-content {

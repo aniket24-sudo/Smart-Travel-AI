@@ -39,6 +39,30 @@
                 <button>Register</button>
             </div>
         </div>
+        <div id="feedback-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" id="close-feedback">&times;</span>
+                <h2>We Value Your Feedback</h2>
+                
+                <div class="input-group">
+                    <label>Rate your experience:</label>
+                    <select id="feedback-rating">
+                        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ - Good</option>
+                        <option value="3">⭐⭐⭐ - Average</option>
+                        <option value="2">⭐⭐ - Poor</option>
+                        <option value="1">⭐ - Terrible</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label>Tell us more:</label>
+                    <textarea id="feedback-text" rows="4" placeholder="What did you love? What can we improve?"></textarea>
+                </div>
+                
+                <button id="submit-feedback-btn">Submit Feedback</button>
+            </div>
+        </div>
     <div class="container">
         <header>
             <h1>✈️ Smart Travel AI</h1>
