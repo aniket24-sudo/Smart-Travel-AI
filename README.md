@@ -56,4 +56,4 @@ Plaintext
 
 [ ] Migrate authentication to a real backend database (e.g., Firebase or MongoDB).
 
-*** Designed and developed by Aniket Kushwaha And Ayush Srivastava.
+*** Designed and developed by Aniket Kushwaha And Ayush Srivastava. ***
