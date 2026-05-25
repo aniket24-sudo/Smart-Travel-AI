@@ -1,7 +1,10 @@
 ✈️ Smart Travel AI Planner
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e194147b71be3513de58b2b181e72c8e8c70dc9
 ✨ Key Features
 🤖 AI-Powered Generation: Integrates directly with the gemini-3.5-flash model to engineer prompts and return strictly formatted JSON data.
 
