@@ -1,10 +1,4 @@
 ✈️ Smart Travel AI Planner
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e194147b71be3513de58b2b181e72c8e8c70dc9
 ✨ Key Features
 🤖 AI-Powered Generation: Integrates directly with the gemini-3.5-flash model to engineer prompts and return strictly formatted JSON data.
 
@@ -62,4 +56,4 @@ Plaintext
 
 [ ] Migrate authentication to a real backend database (e.g., Firebase or MongoDB).
 
-*** Designed and developed by Aniket Kushwaha.
+*** Designed and developed by Aniket Kushwaha And Ayush Srivastava.
