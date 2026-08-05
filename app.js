@@ -98,7 +98,6 @@ const closeFeedbackBtn = document.getElementById('close-feedback');
 
 // Smooth Scroll Links
 navHome.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-// navAbout now scrolls down to the How It Works section!
 
 // Open Modals
 navLogin.addEventListener('click', (e) => { e.preventDefault(); loginModal.classList.remove('hidden'); });
@@ -112,7 +111,7 @@ closeFeedbackBtn.addEventListener('click', () => feedbackModal.classList.add('hi
 
 
 // ==========================================
-// 3. AUTHENTICATION LOGIC (LOCAL STORAGE)
+// 3. AUTHENTICATION LOGIC (NOW WITH MONGODB!)
 // ==========================================
 const registerInputs = document.querySelectorAll('#register-modal input');
 const registerBtn = document.querySelector('#register-modal button');
@@ -120,7 +119,7 @@ const registerBtn = document.querySelector('#register-modal button');
 const loginInputs = document.querySelectorAll('#login-modal input');
 const loginBtn = document.querySelector('#login-modal button');
 
-registerBtn.addEventListener('click', () => {
+registerBtn.addEventListener('click', async () => {
     const fullName = registerInputs[0].value.trim();
     const email = registerInputs[1].value.trim();
     const password = registerInputs[2].value.trim();
@@ -130,23 +129,41 @@ registerBtn.addEventListener('click', () => {
         return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    if (existingUsers.some(user => user.email === email)) {
-        alert("An account with this email already exists! Please login.");
-        registerModal.classList.add('hidden');
-        loginModal.classList.remove('hidden');
-        return;
+    // 🚀 NEW: Send data to MongoDB Backend (Using 127.0.0.1 to fix Windows network block)
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fullName, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Keep local storage active so the login button still works
+            const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+            existingUsers.push({ fullName, email, password });
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+
+            alert("Registration Successful! You are saved in the cloud. Please login.");
+            
+            registerInputs[0].value = ''; 
+            registerInputs[1].value = ''; 
+            registerInputs[2].value = '';
+            registerModal.classList.add('hidden');
+            loginModal.classList.remove('hidden');
+        } else {
+            alert("Database Error: " + data.message);
+        }
+    } catch (error) {
+        console.error("Backend connection failed:", error);
+        alert("Could not connect to the database. Is your server running?");
     }
-
-    existingUsers.push({ fullName, email, password });
-    localStorage.setItem('users', JSON.stringify(existingUsers));
-
-    alert("Registration Successful! Please login.");
-    registerInputs[0].value = ''; registerInputs[1].value = ''; registerInputs[2].value = '';
-    registerModal.classList.add('hidden');
-    loginModal.classList.remove('hidden');
 });
 
+// Login remains Local Storage for now until we build a Login Route
 loginBtn.addEventListener('click', () => {
     const email = loginInputs[0].value.trim();
     const password = loginInputs[1].value.trim();
@@ -190,11 +207,11 @@ window.onload = () => {
 };
 
 // ==========================================
-// 4. FEEDBACK LOGIC (LOCAL STORAGE)
+// 4. FEEDBACK LOGIC (NOW WITH MONGODB!)
 // ==========================================
 const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
 
-submitFeedbackBtn.addEventListener('click', () => {
+submitFeedbackBtn.addEventListener('click', async () => {
     const rating = document.getElementById('feedback-rating').value;
     const message = document.getElementById('feedback-text').value.trim();
 
@@ -203,19 +220,26 @@ submitFeedbackBtn.addEventListener('click', () => {
         return;
     }
 
-    const existingFeedback = JSON.parse(localStorage.getItem('userFeedback')) || [];
-    
-    existingFeedback.push({
-        rating: rating,
-        message: message,
-        date: new Date().toLocaleDateString()
-    });
+    // 🚀 NEW: Send feedback to MongoDB Backend (Using 127.0.0.1)
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rating, message })
+        });
 
-    localStorage.setItem('userFeedback', JSON.stringify(existingFeedback));
-
-    alert("Thank you for your feedback! We read every message.");
-    
-    document.getElementById('feedback-rating').value = '5';
-    document.getElementById('feedback-text').value = '';
-    feedbackModal.classList.add('hidden');
+        if (response.ok) {
+            alert("Thank you! Your feedback has been saved to the database.");
+            document.getElementById('feedback-rating').value = '5';
+            document.getElementById('feedback-text').value = '';
+            feedbackModal.classList.add('hidden');
+        } else {
+            alert("Error saving feedback to the database.");
+        }
+    } catch (error) {
+        console.error("Backend connection failed:", error);
+        alert("Could not connect to the database. Is your server running?");
+    }
 });
