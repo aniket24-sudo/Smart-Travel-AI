@@ -111,7 +111,7 @@ closeFeedbackBtn.addEventListener('click', () => feedbackModal.classList.add('hi
 
 
 // ==========================================
-// 3. AUTHENTICATION LOGIC (NOW WITH MONGODB!)
+// 3. AUTHENTICATION LOGIC (NOW 100% MONGODB!)
 // ==========================================
 const registerInputs = document.querySelectorAll('#register-modal input');
 const registerBtn = document.querySelector('#register-modal button');
@@ -119,6 +119,7 @@ const registerBtn = document.querySelector('#register-modal button');
 const loginInputs = document.querySelectorAll('#login-modal input');
 const loginBtn = document.querySelector('#login-modal button');
 
+// --- DATABASE REGISTRATION ---
 registerBtn.addEventListener('click', async () => {
     const fullName = registerInputs[0].value.trim();
     const email = registerInputs[1].value.trim();
@@ -129,26 +130,17 @@ registerBtn.addEventListener('click', async () => {
         return;
     }
 
-    // 🚀 NEW: Send data to MongoDB Backend (Using 127.0.0.1 to fix Windows network block)
     try {
         const response = await fetch('http://127.0.0.1:5000/api/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fullName, email, password })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            // Keep local storage active so the login button still works
-            const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-            existingUsers.push({ fullName, email, password });
-            localStorage.setItem('users', JSON.stringify(existingUsers));
-
             alert("Registration Successful! You are saved in the cloud. Please login.");
-            
             registerInputs[0].value = ''; 
             registerInputs[1].value = ''; 
             registerInputs[2].value = '';
@@ -163,35 +155,50 @@ registerBtn.addEventListener('click', async () => {
     }
 });
 
-// Login remains Local Storage for now until we build a Login Route
-loginBtn.addEventListener('click', () => {
+// --- DATABASE LOGIN ---
+loginBtn.addEventListener('click', async () => {
     const email = loginInputs[0].value.trim();
     const password = loginInputs[1].value.trim();
 
     if (!email || !password) return alert("Please enter both email and password.");
 
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const validUser = existingUsers.find(user => user.email === email && user.password === password);
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
 
-    if (validUser) {
-        alert(`Welcome back, ${validUser.fullName}!`);
-        localStorage.setItem('currentUser', JSON.stringify(validUser));
-        loginModal.classList.add('hidden');
-        loginInputs[0].value = ''; loginInputs[1].value = '';
-        
-        navLogin.textContent = `Hi, ${validUser.fullName}`;
-        navRegister.textContent = "Logout";
-        navRegister.onclick = function(e) {
-             e.preventDefault();
-             localStorage.removeItem('currentUser');
-             alert("You have been logged out.");
-             location.reload(); 
-        };
-    } else {
-        alert("Invalid email or password. Please try again.");
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(`Welcome back, ${data.user.fullName}!`);
+            
+            // Save the user session locally so the website remembers they are logged in during this visit
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            
+            loginModal.classList.add('hidden');
+            loginInputs[0].value = ''; loginInputs[1].value = '';
+            
+            navLogin.textContent = `Hi, ${data.user.fullName}`;
+            navRegister.textContent = "Logout";
+            navRegister.onclick = function(e) {
+                 e.preventDefault();
+                 localStorage.removeItem('currentUser');
+                 alert("You have been logged out.");
+                 location.reload(); 
+            };
+        } else {
+            // This catches wrong passwords or missing accounts from the database
+            alert("Login Failed: " + data.message); 
+        }
+    } catch (error) {
+        console.error("Backend connection failed:", error);
+        alert("Could not connect to the database. Is your server running?");
     }
 });
 
+// --- KEEP USER LOGGED IN ON REFRESH ---
 window.onload = () => {
     const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
     if (loggedInUser) {
@@ -207,7 +214,7 @@ window.onload = () => {
 };
 
 // ==========================================
-// 4. FEEDBACK LOGIC (NOW WITH MONGODB!)
+// 4. FEEDBACK LOGIC (DATABASE)
 // ==========================================
 const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
 
@@ -220,13 +227,10 @@ submitFeedbackBtn.addEventListener('click', async () => {
         return;
     }
 
-    // 🚀 NEW: Send feedback to MongoDB Backend (Using 127.0.0.1)
     try {
         const response = await fetch('http://127.0.0.1:5000/api/feedback', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rating, message })
         });
 

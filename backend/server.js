@@ -65,3 +65,33 @@ const PORT = 5000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server is running live on http://127.0.0.1:${PORT}`);
 });
+
+// Route 3: Login an Existing User
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // 1. Search the database for this email
+        const user = await User.findOne({ email: email });
+        
+        // 2. If the user doesn't exist, stop and send an error
+        if (!user) {
+            return res.status(404).json({ message: "Account not found. Please register first!" });
+        }
+
+        // 3. If the password doesn't match, stop and send an error
+        if (user.password !== password) {
+            return res.status(401).json({ message: "Incorrect password. Try again!" });
+        }
+
+        // 4. If everything matches, send a success message and the user's name!
+        res.status(200).json({ 
+            message: "Login successful!", 
+            user: { fullName: user.fullName, email: user.email } 
+        });
+
+    } catch (error) {
+        console.log("LOGIN ERROR: ", error);
+        res.status(500).json({ message: "Server error during login", error: error.message });
+    }
+});
