@@ -1,59 +1,56 @@
-✈️ Smart Travel AI Planner
+Smart Travel AI ✈️🤖
+
+
+Smart Travel AI is a full-stack, AI-powered web application that generates highly personalized, day-by-day travel itineraries. By leveraging the Google Gemini API, the platform processes user constraints—such as destination, budget, trip duration, and desired travel "vibe"—to dynamically construct structured travel plans.
+
 ✨ Key Features
-🤖 AI-Powered Generation: Integrates directly with the gemini-3.5-flash model to engineer prompts and return strictly formatted JSON data.
+AI-Generated Itineraries: Utilizes generative AI and strict prompt engineering to deliver structured JSON schedules (morning, afternoon, evening activities, and daily cost estimates).
 
-🔐 Front-End Authentication: Includes a fully functional Local Storage-based Login and Registration system to manage user sessions without a backend.
+Secure User Authentication: Custom-built RESTful API utilizing Node.js and Express to handle user registration and login securely.
 
-🎭 "Vibe" Customization: Users can select their travel style (e.g., Adventure, Romantic, Foodie), and the AI tailors every activity to match.
+Cloud Data Storage: Fully integrated with MongoDB Atlas via Mongoose to store user credentials and application feedback persistently, bypassing local storage limitations.
 
-🎨 Glassmorphism UI: Features a premium, modern user interface with frosted-glass modals, dynamic background scaling, and responsive flexbox design.
-
-⚡ Seamless Error Handling: Built-in safeguards to catch API timeouts, invalid JSON responses, and missing user inputs gracefully.
+Asynchronous UI: Seamless frontend experience using Vanilla JavaScript and the Fetch API to render AI responses and handle database queries without page reloads.
 
 🛠️ Tech Stack
-Front-End: HTML5, CSS3, Vanilla JavaScript (ES6+)
+Frontend: HTML5, CSS3 (Flexbox/Grid), Vanilla JavaScript
 
-AI Integration: Google Generative AI API (Gemini 3.5 Flash)
+Backend: Node.js, Express.js
 
-State Management: Web Storage API (Local Storage)
+Database: MongoDB Atlas, Mongoose
 
-Architecture: 100% Client-Side Rendering (No server required to run)
+External APIs: Google Gemini 3.5 Flash API
 
-🚀 How to Run Locally
-Because this project is built entirely on the front end, setting it up is incredibly easy.
+🚀 For Getting Started
+Follow these steps to run the project locally on your machine.
 
-Clone the repository
+1. Clone the Repository
+Bash
+git clone https://github.com/aniket24-sudo/Smart-Travel-AI.git
+cd Smart-Travel-AI
+2. Install Dependencies
+Navigate into the backend directory and install the required Node modules.
 
 Bash
-git clone https://github.com/your-username/smart-travel-ai.git
-cd smart-travel-ai
-Get your API Key
+cd backend
+npm install
+3. Environment Variables
+Create a .env file in your backend directory and add your secure keys:
 
-Go to Google AI Studio and create a free API key.
+Ini, TOML
+PORT=5000
+MONGO_URI=your_mongodb_atlas_connection_string
+GEMINI_API_KEY=your_google_gemini_api_key
+4. Run the Server
+Start the Express backend to establish the database connection.
 
-Add your API Key
+Bash
+node server.js
+Note: Ensure your terminal displays successful connections to both 127.0.0.1:5000 and MongoDB before proceeding.
 
-Open app.js in your code editor.
+5. Launch the Frontend
+Open the index.html file located in the root directory using Live Server (or your preferred local development server) to interact with the web application.
 
-Paste your key at the very top: const GEMINI_API_KEY = "YOUR_KEY_HERE";
-
-Launch the App
-
-Simply double-click index.html to open it in your browser, or use the "Live Server" extension in VS Code.
-
-📂 Folder Structure
-Plaintext
-📁 Smart-Travel-AI
-├── 📄 index.html      # The main layout and structure
-├── 📄 style.css       # All styling, glass effects, and UI components
-├── 📄 app.js          # AI logic, API calls, and Authentication system
-└── 📁 Images
-    └── 🖼️ Background_img.png  # Premium dynamic background
-🗺️ Future Roadmap
-[ ] Add "Download as PDF" functionality for offline itineraries.
-
-[ ] Save generated trips directly to the user's Local Storage profile.
-
-[ ] Migrate authentication to a real backend database (e.g., Firebase or MongoDB).
-
-*** Designed and developed by Aniket Kushwaha And Ayush Srivastava. ***
+👨‍💻 Developer
+Aniket Kushwaha
+B.Tech Computer Science & Engineering (AI)
