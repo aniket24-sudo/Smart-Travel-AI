@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // 🛑 THE BYPASS: Force Node.js to use Google's DNS
-const dns = require('dns');
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+//const dns = require('dns');
+//dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 // Initialize the Express App
 const app = express();
@@ -61,9 +61,10 @@ app.post('/api/feedback', async (req, res) => {
 });
 
 // Start the Server
-const PORT = 5000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running live on http://127.0.0.1:${PORT}`);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running live on port ${PORT}`);
 });
 
 // Route 3: Login an Existing User
