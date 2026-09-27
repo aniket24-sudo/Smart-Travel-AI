@@ -1,24 +1,24 @@
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Ensure cors is required
+const mongoose = require('mongoose'); // <--- MUST be declared before mongoose.connect
+const cors = require('cors');
 
 const app = express();
 
-app.use(cors()); // ALLOW ALL ORIGINS
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// Import your Database Blueprints
+// Import Models
 const User = require('./models/User');
 const Feedback = require('./models/Feedback');
 
 // Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, { 
-    serverSelectionTimeoutMS: 5000, 
-    family: 4 
+mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000
 })
-    .then(() => console.log("✅ Successfully connected to MongoDB Database!"))
-    .catch((error) => console.error("❌ MongoDB Connection Error:", error));
-
-
+.then(() => console.log('MongoDB Connected Successfully'))
+.catch(err => console.error('MongoDB Connection Error:', err));
 
 //  API ROUTES (The "Doors" to your database)
 
