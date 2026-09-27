@@ -1,17 +1,9 @@
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const cors = require('cors'); // Ensure cors is required
 
-// 🛑 THE BYPASS: Force Node.js to use Google's DNS
-//const dns = require('dns');
-//dns.setServers(['8.8.8.8', '8.8.4.4']);
-
-// Initialize the Express App
 const app = express();
 
-// Middleware
-app.use(cors());
+app.use(cors()); // ALLOW ALL ORIGINS
 app.use(express.json());
 
 // Import your Database Blueprints
