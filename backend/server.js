@@ -27,9 +27,9 @@ mongoose.connect(process.env.MONGO_URI, {
     .catch((error) => console.error("❌ MongoDB Connection Error:", error));
 
 
-// ==========================================
-// 🛣️ API ROUTES (The "Doors" to your database)
-// ==========================================
+
+//  API ROUTES (The "Doors" to your database)
+
 
 // Test Route
 app.get('/', (req, res) => {
@@ -72,20 +72,18 @@ app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // 1. Search the database for this email
         const user = await User.findOne({ email: email });
-        
-        // 2. If the user doesn't exist, stop and send an error
+
         if (!user) {
             return res.status(404).json({ message: "Account not found. Please register first!" });
         }
 
-        // 3. If the password doesn't match, stop and send an error
+        
         if (user.password !== password) {
             return res.status(401).json({ message: "Incorrect password. Try again!" });
         }
 
-        // 4. If everything matches, send a success message and the user's name!
+        
         res.status(200).json({ 
             message: "Login successful!", 
             user: { fullName: user.fullName, email: user.email } 

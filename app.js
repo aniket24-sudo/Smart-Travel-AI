@@ -3,6 +3,7 @@
 // ==========================================
 // Notice we get the API key from config.js now!
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const BASE_URL = 'https://smart-travel-ai-e7t8.onrender.com';
 
 const generateBtn = document.getElementById('generate-btn');
 const loadingDiv = document.getElementById('loading');
@@ -131,7 +132,7 @@ registerBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/register', {
+        const response = await fetch(`${BASE_URL}/api/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fullName, email, password })
@@ -163,7 +164,7 @@ loginBtn.addEventListener('click', async () => {
     if (!email || !password) return alert("Please enter both email and password.");
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/login', {
+        const response = await fetch(`${BASE_URL}/api/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -228,7 +229,7 @@ submitFeedbackBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/feedback', {
+        const response = await fetch(`${BASE_URL}/api/feedback`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rating, message })
