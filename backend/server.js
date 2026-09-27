@@ -83,12 +83,18 @@ app.post('/api/feedback', async (req, res) => {
 });
 
 // Route 4: Generate AI Itinerary (Gemini)
+// Route 4: Generate AI Itinerary (Gemini)
 app.post('/api/generate-itinerary', async (req, res) => {
     try {
         const { prompt } = req.body;
 
         if (!prompt) {
             return res.status(400).json({ error: "Prompt is required" });
+        }
+
+        // Verify API key exists
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({ error: "GEMINI_API_KEY is missing in backend environment variables" });
         }
 
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -98,7 +104,8 @@ app.post('/api/generate-itinerary', async (req, res) => {
         res.json({ success: true, itinerary });
     } catch (error) {
         console.error("Gemini API Error:", error);
-        res.status(500).json({ error: "Failed to generate itinerary" });
+        // Sends the detailed error message back to frontend for easy debugging
+        res.status(500).json({ error: error.message || "Failed to generate itinerary" });
     }
 });
 
