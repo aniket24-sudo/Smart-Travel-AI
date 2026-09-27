@@ -97,7 +97,7 @@ app.post('/api/generate-itinerary', async (req, res) => {
             return res.status(500).json({ error: "GEMINI_API_KEY is missing in backend environment variables" });
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const result = await model.generateContent(prompt);
         const itinerary = result.response.text();
 
