@@ -2,7 +2,6 @@
 // 1. AI TRAVEL PLANNER LOGIC
 // ==========================================
 // Notice we get the API key from config.js now!
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 const BASE_URL = 'https://smart-travel-ai-e7t8.onrender.com';
 
 const generateBtn = document.getElementById('generate-btn');
@@ -37,21 +36,20 @@ generateBtn.addEventListener('click', async () => {
     Return a valid JSON array. Each object must have these exact keys: "day", "morning", "afternoon", "evening", and "cost".`;
 
     try {
-        const response = await fetch(API_URL, {
+        // Send the prompt to YOUR Render backend, not Google directly
+        const response = await fetch(`${BASE_URL}/api/generate-itinerary`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { responseMimeType: "application/json" }
-            })
+            body: JSON.stringify({ prompt: prompt }) 
         });
 
         const data = await response.json();
         
-        if (!response.ok) throw new Error(`API Error: ${data.error?.message || "Unknown error occurred"}`);
+        if (!response.ok) throw new Error(`API Error: ${data.error || "Unknown error occurred"}`);
         
-        const aiText = data.candidates[0].content.parts[0].text;
-        const itineraryArray = JSON.parse(aiText);
+        // Clean the AI response text of any markdown formatting before parsing
+        let rawJsonText = data.itinerary.replace(/```json/g, '').replace(/```/g, '').trim();
+        const itineraryArray = JSON.parse(rawJsonText);
 
         itineraryArray.forEach(dayPlan => {
             const dayCard = document.createElement('div');

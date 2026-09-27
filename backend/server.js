@@ -1,9 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose'); // <--- MUST be declared before mongoose.connect
+const mongoose = require('mongoose');
 const cors = require('cors');
+const { GoogleGenerativeAI } = require('@google/generative-ai'); // 1. Gemini Import
 
 const app = express();
+
+// Initialize Gemini AI
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Middleware
 app.use(cors());
@@ -20,8 +24,9 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB Connected Successfully'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
-//  API ROUTES (The "Doors" to your database)
-
+// ==========================================
+// API ROUTES
+// ==========================================
 
 // Test Route
 app.get('/', (req, res) => {
@@ -40,7 +45,32 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// Route 2: Submit Feedback
+// Route 2: Login an Existing User
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(404).json({ message: "Account not found. Please register first!" });
+        }
+
+        if (user.password !== password) {
+            return res.status(401).json({ message: "Incorrect password. Try again!" });
+        }
+
+        res.status(200).json({ 
+            message: "Login successful!", 
+            user: { fullName: user.fullName, email: user.email } 
+        });
+
+    } catch (error) {
+        console.log("LOGIN ERROR: ", error);
+        res.status(500).json({ message: "Server error during login", error: error.message });
+    }
+});
+
+// Route 3: Submit Feedback
 app.post('/api/feedback', async (req, res) => {
     try {
         const { rating, message } = req.body;
@@ -52,37 +82,31 @@ app.post('/api/feedback', async (req, res) => {
     }
 });
 
-// Start the Server
+// Route 4: Generate AI Itinerary (Gemini)
+app.post('/api/generate-itinerary', async (req, res) => {
+    try {
+        const { prompt } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({ error: "Prompt is required" });
+        }
+
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(prompt);
+        const itinerary = result.response.text();
+
+        res.json({ success: true, itinerary });
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        res.status(500).json({ error: "Failed to generate itinerary" });
+    }
+});
+
+// ==========================================
+// START SERVER (MUST BE AT THE VERY BOTTOM)
+// ==========================================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`🚀 Server is running live on port ${PORT}`);
-});
-
-// Route 3: Login an Existing User
-app.post('/api/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        const user = await User.findOne({ email: email });
-
-        if (!user) {
-            return res.status(404).json({ message: "Account not found. Please register first!" });
-        }
-
-        
-        if (user.password !== password) {
-            return res.status(401).json({ message: "Incorrect password. Try again!" });
-        }
-
-        
-        res.status(200).json({ 
-            message: "Login successful!", 
-            user: { fullName: user.fullName, email: user.email } 
-        });
-
-    } catch (error) {
-        console.log("LOGIN ERROR: ", error);
-        res.status(500).json({ message: "Server error during login", error: error.message });
-    }
 });
