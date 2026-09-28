@@ -1,56 +1,40 @@
-Smart Travel AI ✈️🤖
+# ✈️ Smart Travel AI
+
+A full-stack, AI-powered travel planning application that generates detailed, multi-day itineraries tailored to destination, budget, duration, and travel vibe. Built with a secure backend proxy to keep API keys safe and connected to a cloud database for user management.
+
+🌐 **Live Demo:** [https://smart-travel-ai-theta.vercel.app](https://smart-travel-ai-theta.vercel.app)
 
 
-Smart Travel AI is a full-stack, AI-powered web application that generates highly personalized, day-by-day travel itineraries. By leveraging the Google Gemini API, the platform processes user constraints—such as destination, budget, trip duration, and desired travel "vibe"—to dynamically construct structured travel plans.
+## 🚀 Features
 
-✨ Key Features
-AI-Generated Itineraries: Utilizes generative AI and strict prompt engineering to deliver structured JSON schedules (morning, afternoon, evening activities, and daily cost estimates).
+- **Custom AI Itinerary Generation:** Tailored daily travel schedules (Morning, Afternoon, Evening, Cost) powered by Google Gemini AI.
+- **Secure Backend Proxy:** API requests are routed through a Node.js/Express backend on Render to keep secret keys hidden from the client side.
+- **MongoDB Cloud Authentication:** User registration and login functionality backed by MongoDB Atlas.
+- **User Feedback Collection:** Collects user ratings and suggestions saved directly to the database.
+- **Responsive UI:** Clean, modern interface deployed on Vercel with real-time DOM updates.
 
-Secure User Authentication: Custom-built RESTful API utilizing Node.js and Express to handle user registration and login securely.
+---
 
-Cloud Data Storage: Fully integrated with MongoDB Atlas via Mongoose to store user credentials and application feedback persistently, bypassing local storage limitations.
+## 🛠️ Tech Stack
 
-Asynchronous UI: Seamless frontend experience using Vanilla JavaScript and the Fetch API to render AI responses and handle database queries without page reloads.
+- **Frontend:** Vanilla JavaScript, HTML5, CSS3 (Hosted on **Vercel**)
+- **Backend:** Node.js, Express.js (Hosted on **Render**)
+- **Database:** MongoDB Atlas with Mongoose ORM
+- **AI Integration:** Google Gemini API (`@google/generative-ai`)
 
-🛠️ Tech Stack
-Frontend: HTML5, CSS3 (Flexbox/Grid), Vanilla JavaScript
+---
 
-Backend: Node.js, Express.js
+## ⚙️ Architecture & API Flow
 
-Database: MongoDB Atlas, Mongoose
+[ Client (Vercel) ] 
+       │
+       ├──► POST /api/register & /api/login ──► [ Express + MongoDB Atlas ]
+       │
+       └──► POST /api/generate-itinerary ────► [ Express Backend ] ────► [ Gemini API ]
+                                                        │
+[ Dynamic Cards Rendered ] ◄─────────────────────────────┘
 
-External APIs: Google Gemini 3.5 Flash API
 
-🚀 For Getting Started
-Follow these steps to run the project locally on your machine.
-
-1. Clone the Repository
-Bash
-git clone https://github.com/aniket24-sudo/Smart-Travel-AI.git
-cd Smart-Travel-AI
-2. Install Dependencies
-Navigate into the backend directory and install the required Node modules.
-
-Bash
-cd backend
-npm install
-3. Environment Variables
-Create a .env file in your backend directory and add your secure keys:
-
-Ini, TOML
-PORT=5000
-MONGO_URI=your_mongodb_atlas_connection_string
-GEMINI_API_KEY=your_google_gemini_api_key
-4. Run the Server
-Start the Express backend to establish the database connection.
-
-Bash
-node server.js
-Note: Ensure your terminal displays successful connections to both 127.0.0.1:5000 and MongoDB before proceeding.
-
-5. Launch the Frontend
-Open the index.html file located in the root directory using Live Server (or your preferred local development server) to interact with the web application.
-
-👨‍💻 Developer
+Developed By Aniket Kushwaha
 Aniket Kushwaha
 B.Tech Computer Science & Engineering (AI)

@@ -1,6 +1,6 @@
-/* =========================================
+/*
    1. GLOBAL RESET
-   ========================================= */
+*/
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,9 +9,9 @@
     scroll-behavior: smooth;
 }
 
-/* =========================================
+/*
    2. MAIN BODY & BACKGROUND
-   ========================================= */
+*/
 body {
     background-image: url('Images/Background_img.png');
     background-color: #f3f4f6;
@@ -28,9 +28,9 @@ body {
     min-height: 100vh;
 }
 
-/* =========================================
+/*
    3. TOP NAVIGATION BAR
-   ========================================= */
+*/
 .navbar {
     position: fixed;
     top: 0;
@@ -72,9 +72,9 @@ body {
     color: #4F46E5;
 }
 
-/* =========================================
+/*
    4. MAIN CONTAINER & UI CARDS
-   ========================================= */
+*/
 .container {
     width: 100%;
     max-width: 600px;
@@ -107,9 +107,9 @@ header p {
     backdrop-filter: blur(5px);
 }
 
-/* =========================================
+/*
    5. INPUTS & BUTTONS
-   ========================================= */
+*/
 .input-group {
     display: flex;
     flex-direction: column;
@@ -162,9 +162,9 @@ button:hover {
     background-color: #4338CA;
 }
 
-/* =========================================
+/*
    6. AI OUTPUT & MODALS
-   ========================================= */
+*/
 .hidden {
     display: none !important;
 }
@@ -246,9 +246,9 @@ button:hover {
     color: #ef4444;
 }
 
-/* =========================================
+/*
    7. LANDING PAGE SECTIONS
-   ========================================= */
+*/
 section {
     width: 100%;
     max-width: 1000px;
@@ -347,9 +347,9 @@ section h2 {
     font-weight: bold;
 }
 
-/* =========================================
+/*
    8. FAT FOOTER
-   ========================================= */
+*/
 footer {
     width: 100%;
     background-color: #1f2937; 

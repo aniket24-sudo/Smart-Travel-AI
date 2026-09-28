@@ -1,7 +1,5 @@
-// ==========================================
 // 1. AI TRAVEL PLANNER LOGIC
-// ==========================================
-// Notice we get the API key from config.js now!
+
 const BASE_URL = 'https://smart-travel-ai-e7t8.onrender.com';
 
 const generateBtn = document.getElementById('generate-btn');
@@ -47,7 +45,6 @@ generateBtn.addEventListener('click', async () => {
         
         if (!response.ok) throw new Error(`API Error: ${data.error || "Unknown error occurred"}`);
         
-        // Clean the AI response text of any markdown formatting before parsing
         let rawJsonText = data.itinerary.replace(/```json/g, '').replace(/```/g, '').trim();
         const itineraryArray = JSON.parse(rawJsonText);
 
@@ -78,9 +75,9 @@ generateBtn.addEventListener('click', async () => {
 });
 
 
-// ==========================================
-// 2. NAVBAR & MODAL POPUP LOGIC
-// ==========================================
+
+// 2. NAVBAR & MODAL POPUP 
+
 const navHome = document.getElementById('nav-home');
 const navAbout = document.getElementById('nav-about');
 const navFeedback = document.getElementById('nav-feedback');
@@ -109,16 +106,15 @@ closeRegisterBtn.addEventListener('click', () => registerModal.classList.add('hi
 closeFeedbackBtn.addEventListener('click', () => feedbackModal.classList.add('hidden'));
 
 
-// ==========================================
-// 3. AUTHENTICATION LOGIC (NOW 100% MONGODB!)
-// ==========================================
+// 3. AUTHENTICATION 
+
 const registerInputs = document.querySelectorAll('#register-modal input');
 const registerBtn = document.querySelector('#register-modal button');
 
 const loginInputs = document.querySelectorAll('#login-modal input');
 const loginBtn = document.querySelector('#login-modal button');
 
-// --- DATABASE REGISTRATION ---
+// DATABASE REGISTRATION 
 registerBtn.addEventListener('click', async () => {
     const fullName = registerInputs[0].value.trim();
     const email = registerInputs[1].value.trim();
@@ -154,7 +150,7 @@ registerBtn.addEventListener('click', async () => {
     }
 });
 
-// --- DATABASE LOGIN ---
+// DATABASE LOGIN
 loginBtn.addEventListener('click', async () => {
     const email = loginInputs[0].value.trim();
     const password = loginInputs[1].value.trim();
@@ -188,7 +184,6 @@ loginBtn.addEventListener('click', async () => {
                  location.reload(); 
             };
         } else {
-            // This catches wrong passwords or missing accounts from the database
             alert("Login Failed: " + data.message); 
         }
     } catch (error) {
@@ -197,7 +192,7 @@ loginBtn.addEventListener('click', async () => {
     }
 });
 
-// --- KEEP USER LOGGED IN ON REFRESH ---
+// KEEP USER LOGGED IN ON REFRESh
 window.onload = () => {
     const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
     if (loggedInUser) {
@@ -212,9 +207,8 @@ window.onload = () => {
     }
 };
 
-// ==========================================
-// 4. FEEDBACK LOGIC (DATABASE)
-// ==========================================
+// 4. FEEDBACK 
+
 const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
 
 submitFeedbackBtn.addEventListener('click', async () => {

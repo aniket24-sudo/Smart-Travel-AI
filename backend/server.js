@@ -6,14 +6,12 @@ const { GoogleGenerativeAI } = require('@google/generative-ai'); // 1. Gemini Im
 
 const app = express();
 
-// Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Import Models
+// Import models
 const User = require('./models/User');
 const Feedback = require('./models/Feedback');
 
@@ -24,16 +22,12 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB Connected Successfully'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
-// ==========================================
-// API ROUTES
-// ==========================================
-
-// Test Route
+//
 app.get('/', (req, res) => {
     res.send("✈️ Smart Travel AI Backend is fully operational!");
 });
 
-// Route 1: Register a New User
+//Register a New User
 app.post('/api/register', async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
@@ -45,7 +39,7 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// Route 2: Login an Existing User
+// Login an Existing User
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -70,7 +64,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// Route 3: Submit Feedback
+//Submit Feedback
 app.post('/api/feedback', async (req, res) => {
     try {
         const { rating, message } = req.body;
@@ -82,8 +76,7 @@ app.post('/api/feedback', async (req, res) => {
     }
 });
 
-// Route 4: Generate AI Itinerary (Gemini)
-// Route 4: Generate AI Itinerary (Gemini)
+// Generate AI Itinerary (Gemini)
 app.post('/api/generate-itinerary', async (req, res) => {
     try {
         const { prompt } = req.body;
@@ -92,7 +85,6 @@ app.post('/api/generate-itinerary', async (req, res) => {
             return res.status(400).json({ error: "Prompt is required" });
         }
 
-        // Verify API key exists
         if (!process.env.GEMINI_API_KEY) {
             return res.status(500).json({ error: "GEMINI_API_KEY is missing in backend environment variables" });
         }
@@ -109,11 +101,10 @@ app.post('/api/generate-itinerary', async (req, res) => {
     }
 });
 
-// ==========================================
-// START SERVER (MUST BE AT THE VERY BOTTOM)
-// ==========================================
+
+// START SERVER
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running live on port ${PORT}`);
+    console.log(` Server is running live on port ${PORT}`);
 });
